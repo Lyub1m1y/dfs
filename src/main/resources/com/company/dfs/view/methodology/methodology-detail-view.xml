@@ -29,8 +29,7 @@
                         required="true" autocorrect="true"/>
             <textField property="state"
                        enabled="false"/>
-            <textField property="description"
-                       enabled="false"/>
+            <textField property="description"/>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseBtn" action="saveAction"/>
