@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://methodologyDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="methodologyDc"
+                  class="com.company.dfs.entity.Methodology">
+            <fetchPlan extends="_base">
+                <property name="id"/>
+            </fetchPlan>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="methodologyDc">
+
+            <textField property="id"
+                        enabled="false"/>
+            <textField property="createdBy"
+                        enabled="false"/>
+            <textField property="name"
+                        required="true" autocorrect="true"/>
+            <textField property="state"
+                       enabled="false"/>
+            <textField property="description"
+                       enabled="false"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
