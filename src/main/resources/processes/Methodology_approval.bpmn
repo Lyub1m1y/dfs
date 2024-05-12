@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:jmix="http://jmix.io/schema/bpm/bpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.flowable.org/processdef" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:jmix="http://jmix.io/schema/bpm/bpmn" xmlns:flowable="http://flowable.org/bpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.flowable.org/processdef" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
   <collaboration id="Collaboration_0ot9v00" name="">
     <participant id="Participant_0zwhs4l" name="Утверждение методички" processRef="Methodology_approval" />
   </collaboration>
@@ -17,13 +17,13 @@
         <flowNodeRef>Activity_156dfnu</flowNodeRef>
       </lane>
       <lane id="Lane_18fxvj2" name="Система">
+        <flowNodeRef>Gateway_1xa3ybh</flowNodeRef>
+        <flowNodeRef>Event_14cv8hb</flowNodeRef>
+        <flowNodeRef>Event_03p4hob</flowNodeRef>
         <flowNodeRef>Activity_1oisgmh</flowNodeRef>
         <flowNodeRef>Activity_0ci2v9p</flowNodeRef>
         <flowNodeRef>Activity_0mb23mw</flowNodeRef>
-        <flowNodeRef>Gateway_1xa3ybh</flowNodeRef>
-        <flowNodeRef>Event_14cv8hb</flowNodeRef>
         <flowNodeRef>Activity_1ag2fon</flowNodeRef>
-        <flowNodeRef>Event_03p4hob</flowNodeRef>
         <flowNodeRef>Activity_1k0oval</flowNodeRef>
       </lane>
       <lane id="Lane_01ujfbk" name="Председатель П(Ц)К">
@@ -42,7 +42,24 @@
     <sequenceFlow id="Flow_01gpkgu" sourceRef="Activity_0d239uu" targetRef="Gateway_1sb7ivr" />
     <sequenceFlow id="Flow_1uucn5r" name="Нет" sourceRef="Gateway_1sb7ivr" targetRef="Activity_1k0oval" />
     <sequenceFlow id="Flow_05u9u4x" name="Да" sourceRef="Gateway_1sb7ivr" targetRef="Activity_1ag2fon" />
-    <startEvent id="startEvent1" name="Появилась потребность утвердить методичку">
+    <startEvent id="startEvent1" name="Создать методичку для утверждения">
+      <extensionElements>
+        <jmix:formData type="input-dialog" openMode="DIALOG">
+          <jmix:formFields>
+            <jmix:formField id="processID" caption="process ID" type="string" editable="true" required="true" />
+            <jmix:formField id="date" caption="Date" type="localdate" editable="true" required="true" />
+            <jmix:formField id="employee" caption="Employee" type="entity" editable="true" required="true">
+              <jmix:formFieldProperty name="entityName" value="User" />
+              <jmix:formFieldProperty name="uiComponent" value="comboBox" />
+            </jmix:formField>
+            <jmix:formField id="methodology" caption="Methodology" type="entity" editable="true" required="true">
+              <jmix:formFieldProperty name="entityName" value="Methodology" />
+              <jmix:formFieldProperty name="uiComponent" value="comboBox" />
+            </jmix:formField>
+            <jmix:formField id="comment" caption="Comment" type="multilineString" editable="true" required="false" />
+          </jmix:formFields>
+        </jmix:formData>
+      </extensionElements>
       <outgoing>Flow_02uxpnp</outgoing>
     </startEvent>
     <exclusiveGateway id="Gateway_1bt8hf9">
@@ -67,25 +84,20 @@
       <outgoing>Flow_1u2ij4o</outgoing>
       <outgoing>Flow_1tdl85f</outgoing>
     </exclusiveGateway>
-    <serviceTask id="Activity_1oisgmh" name="Статус &#34;На утверждении у Председателя&#34;">
-      <incoming>Flow_0obzt1l</incoming>
-      <outgoing>Flow_09nv4wf</outgoing>
-    </serviceTask>
     <sequenceFlow id="Flow_128ngsy" sourceRef="Activity_0mb23mw" targetRef="Gateway_1xa3ybh" />
     <sequenceFlow id="Flow_1tdl85f" name="Да" sourceRef="Gateway_0k86tuz" targetRef="Activity_0mb23mw" />
     <sequenceFlow id="Flow_0ak7exc" sourceRef="Activity_0ci2v9p" targetRef="Gateway_1erzkyj" />
-    <serviceTask id="Activity_0ci2v9p" name="Статус          &#34;На доработке у Инициатора&#34;">
-      <incoming>Flow_1u2ij4o</incoming>
-      <outgoing>Flow_0ak7exc</outgoing>
-    </serviceTask>
-    <userTask id="Activity_156dfnu" name="Создать и заполнить карточку методички">
+    <userTask id="Activity_156dfnu" name="Заполнить карточку методички">
+      <extensionElements>
+        <jmix:formData type="input-dialog" openMode="DIALOG">
+          <jmix:formFields>
+            <jmix:formField id="state" caption="State" type="string" editable="false" required="false" />
+          </jmix:formFields>
+        </jmix:formData>
+      </extensionElements>
       <incoming>Flow_15qxnb7</incoming>
       <outgoing>Flow_1df9rrv</outgoing>
     </userTask>
-    <serviceTask id="Activity_0mb23mw" name="Статус &#34;На утверждении у Директора&#34;">
-      <incoming>Flow_1tdl85f</incoming>
-      <outgoing>Flow_128ngsy</outgoing>
-    </serviceTask>
     <sequenceFlow id="Flow_1dz6wg6" sourceRef="Gateway_1xa3ybh" targetRef="Activity_0d239uu" />
     <exclusiveGateway id="Gateway_1xa3ybh">
       <incoming>Flow_128ngsy</incoming>
@@ -105,14 +117,56 @@
     <endEvent id="Event_14cv8hb" name="Методичка утверждена">
       <incoming>Flow_1ezx7vq</incoming>
     </endEvent>
-    <serviceTask id="Activity_1ag2fon" name="Статус &#34;Методичка утверждена&#34;">
-      <incoming>Flow_05u9u4x</incoming>
-      <outgoing>Flow_1ezx7vq</outgoing>
-    </serviceTask>
     <endEvent id="Event_03p4hob" name="Методичка отклонена">
       <incoming>Flow_1nt7nky</incoming>
     </endEvent>
-    <serviceTask id="Activity_1k0oval" name="Статус &#34;Методичка отклонена&#34;">
+    <serviceTask id="Activity_1oisgmh" name="Статус &#34;На утверждении у Председателя&#34;" flowable:expression="${methodologyStatusUpdater.execute(methodology,&#39;На утверждении у Председателя&#39;)}" jmix:taskType="springBean" jmix:beanName="methodologyStatusUpdater">
+      <extensionElements>
+        <jmix:springBean beanName="methodologyStatusUpdater" methodName="execute">
+          <jmix:methodParam name="methodology" type="com.company.dfs.entity.Methodology" isVariable="true">methodology</jmix:methodParam>
+          <jmix:methodParam name="nextStatus" type="java.lang.String" isVariable="false">На утверждении у Председателя</jmix:methodParam>
+        </jmix:springBean>
+      </extensionElements>
+      <incoming>Flow_0obzt1l</incoming>
+      <outgoing>Flow_09nv4wf</outgoing>
+    </serviceTask>
+    <serviceTask id="Activity_0ci2v9p" name="Статус &#34;На доработке у Инициатора&#34;" flowable:expression="${methodologyStatusUpdater.execute(methodology,&#39;На доработке у Инициатора&#39;)}" jmix:taskType="springBean" jmix:beanName="methodologyStatusUpdater">
+      <extensionElements>
+        <jmix:springBean beanName="methodologyStatusUpdater" methodName="execute">
+          <jmix:methodParam name="methodology" type="com.company.dfs.entity.Methodology" isVariable="true">methodology</jmix:methodParam>
+          <jmix:methodParam name="nextStatus" type="java.lang.String" isVariable="false">На доработке у Инициатора</jmix:methodParam>
+        </jmix:springBean>
+      </extensionElements>
+      <incoming>Flow_1u2ij4o</incoming>
+      <outgoing>Flow_0ak7exc</outgoing>
+    </serviceTask>
+    <serviceTask id="Activity_0mb23mw" name="Статус &#34;На утверждении у Директора&#34;" flowable:expression="${methodologyStatusUpdater.execute(methodology,&#39;На утверждении у Директора&#39;)}" jmix:taskType="springBean" jmix:beanName="methodologyStatusUpdater">
+      <extensionElements>
+        <jmix:springBean beanName="methodologyStatusUpdater" methodName="execute">
+          <jmix:methodParam name="methodology" type="com.company.dfs.entity.Methodology" isVariable="true">methodology</jmix:methodParam>
+          <jmix:methodParam name="nextStatus" type="java.lang.String" isVariable="false">На утверждении у Директора</jmix:methodParam>
+        </jmix:springBean>
+      </extensionElements>
+      <incoming>Flow_1tdl85f</incoming>
+      <outgoing>Flow_128ngsy</outgoing>
+    </serviceTask>
+    <serviceTask id="Activity_1ag2fon" name="Статус &#34;Методичка утверждена&#34;" flowable:expression="${methodologyStatusUpdater.execute(methodology,&#39;Методичка утверждена&#39;)}" jmix:taskType="springBean" jmix:beanName="methodologyStatusUpdater">
+      <extensionElements>
+        <jmix:springBean beanName="methodologyStatusUpdater" methodName="execute">
+          <jmix:methodParam name="methodology" type="com.company.dfs.entity.Methodology" isVariable="true">methodology</jmix:methodParam>
+          <jmix:methodParam name="nextStatus" type="java.lang.String" isVariable="false">Методичка утверждена</jmix:methodParam>
+        </jmix:springBean>
+      </extensionElements>
+      <incoming>Flow_05u9u4x</incoming>
+      <outgoing>Flow_1ezx7vq</outgoing>
+    </serviceTask>
+    <serviceTask id="Activity_1k0oval" name="Статус &#34;Методичка отклонена&#34;" flowable:expression="${methodologyStatusUpdater.execute(methodology,&#39;Методичка отклонена&#39;)}" jmix:taskType="springBean" jmix:beanName="methodologyStatusUpdater">
+      <extensionElements>
+        <jmix:springBean beanName="methodologyStatusUpdater" methodName="execute">
+          <jmix:methodParam name="methodology" type="com.company.dfs.entity.Methodology" isVariable="true">methodology</jmix:methodParam>
+          <jmix:methodParam name="nextStatus" type="java.lang.String" isVariable="false">Методичка отклонена</jmix:methodParam>
+        </jmix:springBean>
+      </extensionElements>
       <incoming>Flow_1uucn5r</incoming>
       <outgoing>Flow_1nt7nky</outgoing>
     </serviceTask>
@@ -142,7 +196,7 @@
       <bpmndi:BPMNShape id="BPMNShape_startEvent1" bpmnElement="startEvent1">
         <omgdc:Bounds x="75" y="5" width="30" height="30" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="58" y="42" width="65" height="53" />
+          <omgdc:Bounds x="53" y="42" width="75" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1bt8hf9_di" bpmnElement="Gateway_1bt8hf9" isMarkerVisible="true">
@@ -160,19 +214,8 @@
           <omgdc:Bounds x="1010" y="573" width="59" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0rynky0_di" bpmnElement="Activity_1oisgmh">
-        <omgdc:Bounds x="610" y="230" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0xfcoip_di" bpmnElement="Activity_0ci2v9p">
-        <omgdc:Bounds x="990" y="230" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0bainv4_di" bpmnElement="Activity_156dfnu">
         <omgdc:Bounds x="410" y="-20" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1oyml5j_di" bpmnElement="Activity_0mb23mw">
-        <omgdc:Bounds x="1310" y="230" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1xa3ybh_di" bpmnElement="Gateway_1xa3ybh" isMarkerVisible="true">
@@ -193,17 +236,31 @@
           <omgdc:Bounds x="2590" y="245" width="60" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1s8qg31_di" bpmnElement="Activity_1ag2fon">
-        <omgdc:Bounds x="2138" y="180" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_03p4hob_di" bpmnElement="Event_03p4hob">
         <omgdc:Bounds x="2602" y="332" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <omgdc:Bounds x="2592" y="375" width="56" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_11uoso0_di" bpmnElement="Activity_1k0oval">
+      <bpmndi:BPMNShape id="Activity_09j2o2q_di" bpmnElement="Activity_1oisgmh">
+        <omgdc:Bounds x="610" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_02a64gc_di" bpmnElement="Activity_0ci2v9p">
+        <omgdc:Bounds x="990" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bvgo7i_di" bpmnElement="Activity_0mb23mw">
+        <omgdc:Bounds x="1310" y="230" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vys3im_di" bpmnElement="Activity_1ag2fon">
+        <omgdc:Bounds x="2138" y="180" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j5i21e_di" bpmnElement="Activity_1k0oval">
         <omgdc:Bounds x="2138" y="310" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_02uxpnp_di" bpmnElement="Flow_02uxpnp">
         <di:waypoint x="105" y="20" />

@@ -47,6 +47,9 @@ dependencies {
     implementation 'io.jmix.datatools:jmix-datatools-flowui-starter'
     implementation 'io.jmix.bpm:jmix-bpm-starter'
     implementation 'io.jmix.bpm:jmix-bpm-flowui-starter'
+    implementation 'io.jmix.webdav:jmix-webdav-starter'
+    implementation 'io.jmix.webdav:jmix-webdav-rest-starter'
+    implementation 'io.jmix.webdav:jmix-webdav-flowui-starter'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
 

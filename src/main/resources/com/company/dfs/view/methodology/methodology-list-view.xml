@@ -50,7 +50,7 @@
             <columns resizable="true">
                 <column property="createdDate"/>
                 <column property="name"/>
-                <column property="state"/>
+                <column property="status"/>
                 <column property="description"/>
             </columns>
         </dataGrid>

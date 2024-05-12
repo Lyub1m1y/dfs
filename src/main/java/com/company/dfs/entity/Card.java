@@ -22,8 +22,8 @@ public class Card extends StandardEntity {
     @Composition
     private List<Attachment> attachments;
 
-    @Column(name = "STATE")
-    protected String state;
+    @Column(name = "STATUS")
+    protected String status;
 
     @Column(name = "DESCRIPTION", length = 1000)
     protected String description;
@@ -44,12 +44,12 @@ public class Card extends StandardEntity {
         this.attachments = attachments;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDescription() {

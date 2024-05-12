@@ -27,7 +27,7 @@
                         enabled="false"/>
             <textField property="name"
                         required="true" autocorrect="true"/>
-            <textField property="state"
+            <textField property="status"
                        enabled="false"/>
             <textField property="description"/>
         </formLayout>
