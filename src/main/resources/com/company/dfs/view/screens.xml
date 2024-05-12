@@ -1,0 +1,6 @@
+<screen-config xmlns="http://jmix.io/schema/flowui/view">
+
+    <screen id="sales$Customer.lookup" template="/com/sample/sales/gui/customer/customer-browse.xml"/>
+
+
+</screen-config>
