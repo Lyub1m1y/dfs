@@ -1,26 +1,25 @@
 package com.company.dfs.entity;
 
-import io.jmix.core.metamodel.annotation.Composition;
-import io.jmix.core.metamodel.annotation.InstanceName;
+import io.jmix.core.DeletePolicy;
+import io.jmix.core.entity.annotation.OnDelete;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.webdav.entity.WebdavDocument;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-
-import java.util.List;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @JmixEntity
 @Entity
 public class Card extends StandardEntity {
+    @Column(name = "NAME", length = 50)
+    protected String name = "";
 
-    @InstanceName
-    @Column(name = "NAME")
-    private String name;
-
-    @OneToMany(mappedBy = "card", fetch = FetchType.LAZY)
-    @Composition
-    private List<Attachment> attachments;
+    @OnDelete(DeletePolicy.UNLINK)
+    @JoinColumn(name = "DOCUMENT_ID")
+    @OneToOne(fetch = FetchType.LAZY)
+    private WebdavDocument document;
 
     @Column(name = "STATUS")
     protected String status;
@@ -28,20 +27,20 @@ public class Card extends StandardEntity {
     @Column(name = "DESCRIPTION", length = 1000)
     protected String description;
 
+    public WebdavDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(WebdavDocument document) {
+        this.document = document;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Attachment> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(List<Attachment> attachments) {
-        this.attachments = attachments;
     }
 
     public String getStatus() {

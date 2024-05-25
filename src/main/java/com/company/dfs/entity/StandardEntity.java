@@ -20,7 +20,10 @@ import java.util.UUID;
 
 @JmixEntity
 @Table(name = "SYS_STANDARD_ENTITY", indexes = {
-        @Index(name = "IDX_SYS_STANDARD_ENTITY_CARD", columnList = "CARD_ID")
+        @Index(name = "IDX_SYS_STANDARD_ENTITY_CARD", columnList = "CARD_ID"),
+        @Index(name = "IDX_SYS_STANDARD_ENTITY_ATTACHMENT", columnList = "ATTACHMENT_ID"),
+        @Index(name = "IDX_SYS_STANDARD_ENTITY_CONTRACT", columnList = "CONTRACT_ID"),
+        @Index(name = "IDX_SYS_STANDARD_ENTITY_DOCUMENT", columnList = "DOCUMENT_ID")
 })
 @Entity
 public class StandardEntity {

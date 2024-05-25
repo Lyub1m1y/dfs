@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="dfs">
+        <dropForeignKeyConstraint baseTableName="attachment" constraintName="fk_attachment_on_webdav_document"/>
+    </changeSet>
+    <changeSet id="2" author="dfs">
+        <dropForeignKeyConstraint baseTableName="contract" constraintName="fk_contract_on_document"/>
+    </changeSet>
+    <changeSet id="3" author="dfs">
+        <dropForeignKeyConstraint baseTableName="sys_standard_entity"
+                                  constraintName="fk_sys_standard_entity_on_contract"/>
+    </changeSet>
+    <changeSet id="4" author="dfs">
+        <addColumn tableName="SYS_STANDARD_ENTITY">
+            <column name="DOCUMENT_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="5" author="dfs">
+        <createIndex indexName="IDX_SYS_STANDARD_ENTITY_DOCUMENT" tableName="SYS_STANDARD_ENTITY">
+            <column name="DOCUMENT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DOCUMENT_ID" baseTableName="SYS_STANDARD_ENTITY"
+                                 constraintName="FK_SYS_STANDARD_ENTITY_ON_DOCUMENT" referencedColumnNames="ID"
+                                 referencedTableName="WEBDAV_WEBDAV_DOCUMENT"/>
+    </changeSet>
+    <changeSet id="6" author="dfs">
+        <dropTable cascadeConstraints="true" tableName="attachment"/>
+    </changeSet>
+    <changeSet id="7" author="dfs">
+        <dropTable cascadeConstraints="true" tableName="contract"/>
+    </changeSet>
+</databaseChangeLog>

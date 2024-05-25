@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="dfs">
+        <dropForeignKeyConstraint baseTableName="sys_standard_entity" constraintName="fk_sys_standard_entity_on_card"/>
+    </changeSet>
+    <changeSet id="2" author="dfs">
+        <addColumn tableName="SYS_STANDARD_ENTITY">
+            <column name="ATTACHMENT_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="3" author="dfs">
+        <createIndex indexName="IDX_SYS_STANDARD_ENTITY_ATTACHMENT" tableName="SYS_STANDARD_ENTITY">
+            <column name="ATTACHMENT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ATTACHMENT_ID" baseTableName="SYS_STANDARD_ENTITY"
+                                 constraintName="FK_SYS_STANDARD_ENTITY_ON_ATTACHMENT" referencedColumnNames="ID"
+                                 referencedTableName="Attachment"/>
+    </changeSet>
+    <changeSet id="4" author="dfs">
+        <dropColumn columnName="card_id" tableName="attachment"/>
+    </changeSet>
+</databaseChangeLog>

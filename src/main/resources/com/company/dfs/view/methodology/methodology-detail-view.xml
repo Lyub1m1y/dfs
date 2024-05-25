@@ -5,8 +5,12 @@
     <data>
         <instance id="methodologyDc"
                   class="com.company.dfs.entity.Methodology">
-            <fetchPlan extends="_base">
+            <fetchPlan extends="_local">
                 <property name="id"/>
+                <property name="createdBy"/>
+                <property name="document">
+                    <property name="name"/>
+                </property>
             </fetchPlan>
             <loader/>
         </instance>
@@ -14,56 +18,32 @@
     <facets>
         <dataLoadCoordinator auto="true"/>
     </facets>
+    <layout>
+        <formLayout id="form" dataContainer="methodologyDc">
+            <textField property="id"
+                        enabled="false"/>
+            <textField property="createdBy"
+                        enabled="false"/>
+            <textField property="name"
+                        required="true"/>
+            <textField property="status"
+                       enabled="false"/>
+            <textField property="description"/>
+            <entityPicker property="document">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
 
-    <layout expand="split">
-        <split id="split" orientation="VERTICAL" width="100%">
-            <hbox id="mainPane" expand="tabsheet" height="100%" width="100%">
-                <tabSheet id="tabsheet" height="100%">
-                    <tab id="mainTab" classNames="msg://mainTab">
-                        <groupBox id="docInfoGroupBox" expand="infoScrollBox" height="100%"
-                                  width="100%">
-                            <grid id="mainGrid">
-                                <formLayout id="form" dataContainer="methodologyDc">
-                                    <rows>
-                                        <row id="idRow">
-                                            <textField property="id"
-                                                       enabled="false"/>
-
-                                        </row>
-                                        <row id="createdByRow">
-                                            <textField property="createdBy"
-                                                       enabled="false"/>
-                                        </row>
-                                        <row id="nameRow">
-                                            <textField property="name"
-                                                       required="true" autocorrect="true"/>
-                                        </row>
-                                        <row id="statusRow">
-                                            <textField property="status"
-                                                       enabled="false"/>
-                                        </row>
-                                        <row id="descriptionByRow">
-                                            <textField property="description"/>
-                                        </row>
-                                    </rows>
-                                </formLayout>
-                                <hbox id="detailActions">
-                                    <button id="saveAndCloseBtn" action="saveAction"/>
-                                    <button id="closeBtn" action="closeAction"/>
-                                </hbox>
-                            </grid>
-                        </groupBox>
-                    </tab>
-                    <tab id="attachmentsTab" classNames="msg://attachmentsTab">
-                        <item view="Attachment.list" title="msg://com.company.dfs.view.attachment/attachmentListView.title"/>
-                    </tab>
-                </tabSheet>
+            <hbox id="detailActions">
+                <button id="saveAndCloseBtn" action="saveAction"/>
+                <button id="closeBtn" action="closeAction"/>
             </hbox>
-        </split>
+        </formLayout>
     </layout>
     <actions>
         <action id="saveAction" type="detail_saveClose"/>
         <action id="closeAction" type="detail_close"/>
     </actions>
-
 </view>
