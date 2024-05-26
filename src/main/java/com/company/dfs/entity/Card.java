@@ -2,6 +2,7 @@ package com.company.dfs.entity;
 
 import io.jmix.core.DeletePolicy;
 import io.jmix.core.entity.annotation.OnDelete;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.webdav.entity.WebdavDocument;
 import jakarta.persistence.Column;
@@ -13,6 +14,7 @@ import jakarta.persistence.OneToOne;
 @JmixEntity
 @Entity
 public class Card extends StandardEntity {
+    @InstanceName
     @Column(name = "NAME", length = 50)
     protected String name = "";
 
