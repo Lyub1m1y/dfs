@@ -144,7 +144,7 @@
       <extensionElements>
         <jmix:conditionDetails conditionSource="userTaskOutcome" userTaskId="Activity_0d239uu" userTaskOutcome="" />
       </extensionElements>
-      <conditionExpression xsi:type="tFormalExpression"></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression" />
     </sequenceFlow>
     <exclusiveGateway id="Gateway_1xa3ybh">
       <incoming>Flow_128ngsy</incoming>
@@ -215,11 +215,11 @@
     </serviceTask>
     <serviceTask id="Activity_1ag2fon" name="Статус &#34;Методичка утверждена&#34;" flowable:expression="${methodologyStatusUpdater.execute(methodology,&#39;Методичка утверждена&#39;)}" jmix:taskType="springBean" jmix:beanName="methodologyStatusUpdater">
       <extensionElements>
+        <jmix:conditionDetails conditionSource="userTaskOutcome" />
         <jmix:springBean beanName="methodologyStatusUpdater" methodName="execute">
           <jmix:methodParam name="methodology" type="com.company.dfs.entity.Methodology" isVariable="true">methodology</jmix:methodParam>
           <jmix:methodParam name="nextStatus" type="java.lang.String" isVariable="false">Методичка утверждена</jmix:methodParam>
         </jmix:springBean>
-        <jmix:conditionDetails conditionSource="userTaskOutcome" />
       </extensionElements>
       <incoming>Flow_05u9u4x</incoming>
       <outgoing>Flow_1ezx7vq</outgoing>
@@ -244,7 +244,11 @@
       <outgoing>Flow_05u9u4x</outgoing>
       <outgoing>Flow_1uucn5r</outgoing>
     </exclusiveGateway>
-    <sequenceFlow id="Flow_0mfxx0n" sourceRef="Activity_0fvuuxh" targetRef="Gateway_0bj4nvh" />
+    <sequenceFlow id="Flow_0mfxx0n" sourceRef="Activity_0fvuuxh" targetRef="Gateway_0bj4nvh">
+      <extensionElements>
+        <jmix:conditionDetails conditionSource="userTaskOutcome" />
+      </extensionElements>
+    </sequenceFlow>
     <exclusiveGateway id="Gateway_0bj4nvh">
       <extensionElements>
         <jmix:conditionDetails conditionSource="userTaskOutcome" />
